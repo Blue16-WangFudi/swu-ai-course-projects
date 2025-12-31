@@ -23,7 +23,7 @@
 ```
 conda activate pytorch
 ```
-- 可选依赖（若本项目提供 `requirements.txt`，按需安装）：
+- 可选依赖（摄像头演示所需的 MediaPipe/OpenCV）：
 
 ```
 pip install -r requirements.txt
@@ -49,5 +49,5 @@ python tests/smoke_test.py
 
 ## 常见问题
 - `Weights not found`：请邮件申请资源并放置到 `weights/`。
-- `ModuleNotFoundError`：按需使用 `pip install -r requirements.txt` 安装依赖（若提供）。
+- `No module named mediapipe` / `No module named cv2`：使用 `pip install -r requirements.txt` 安装依赖。
 - CUDA 相关错误：请确认 PyTorch/CUDA 与显卡驱动匹配。

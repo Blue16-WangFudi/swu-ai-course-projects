@@ -1,0 +1,6 @@
+# Project 11: Real-Time Fatigue Detection and Safety Alert System
+#
+# This project uses `mediapipe.solutions.face_mesh`.
+# Some newer MediaPipe wheels can be "tasks-only" and may not include `mp.solutions`,
+# so we pin a version known to provide `mp.solutions` on Windows/Python 3.11.
+mediapipe==0.10.14

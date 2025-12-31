@@ -1,14 +1,9 @@
 from __future__ import annotations
 
-import importlib.util
-import sys
-from pathlib import Path
 from typing import Tuple
 
-RESOURCE_EMAIL = 'blue16@email.swu.edu.cn'
-PROJECT = 'projects/11-fatigue-detection-system'
-
-IMPORT_FILES = ['webcam_fatigue_detection.py']
+RESOURCE_EMAIL = "blue16@email.swu.edu.cn"
+PROJECT = "projects/11-fatigue-detection-system"
 
 
 def _dummy_torch_forward() -> None:
@@ -20,58 +15,48 @@ def _dummy_torch_forward() -> None:
     assert tuple(y.shape) == (2, 4)
 
 
-def _import_python_file(code_dir: Path, rel_path: str) -> None:
-    path = (code_dir / rel_path).resolve()
-    if not path.exists():
-        raise FileNotFoundError(f"Missing file: {rel_path}")
-
-    spec = importlib.util.spec_from_file_location(f"_smoke_{path.stem}", path)
-    if spec is None or spec.loader is None:
-        raise ImportError(f"Cannot import: {rel_path}")
-
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-
-
 def run() -> Tuple[str, str]:
     """Return (status, message) where status is one of: passed, skipped, failed."""
-    code_dir = Path(__file__).resolve().parent
-    sys.path.insert(0, str(code_dir))
 
     try:
         _dummy_torch_forward()
     except Exception as e:
         return "failed", f"PyTorch check failed: {e}"
 
-    if False:
+    try:
+        import webcam_fatigue_detection  # noqa: F401
+    except ModuleNotFoundError as e:
         return (
             "skipped",
-            "Project is incomplete in the public repo. "
-            f"Please request resources / missing parts via email: blue16@email.swu.edu.cn",
+            f"Missing dependency '{e.name}'. Install optional deps (see project README). "
+            f"Resource request email: {RESOURCE_EMAIL}",
         )
+    except Exception as e:
+        return "failed", f"Exception during import: {type(e).__name__}: {e}"
 
-    last_error = None
-    for rel in IMPORT_FILES:
+    # Minimal MediaPipe FaceMesh path (no webcam required).
+    try:
+        import mediapipe as mp
+        import numpy as np
+
+        face_mesh = mp.solutions.face_mesh.FaceMesh(
+            static_image_mode=True,
+            max_num_faces=1,
+            refine_landmarks=True,
+            min_detection_confidence=0.5,
+        )
         try:
-            _import_python_file(code_dir, rel)
-            return "passed", f"Imported: {rel}"
-        except ModuleNotFoundError as e:
-            last_error = (
-                f"Missing dependency '{e.name}'. "
-                "Install optional deps (see project README) and retry."
-            )
-        except ImportError as e:
-            last_error = f"ImportError: {e}"
-        except FileNotFoundError as e:
-            last_error = str(e)
-        except Exception as e:
-            last_error = f"Exception during import: {type(e).__name__}: {e}"
+            dummy_rgb = np.zeros((64, 64, 3), dtype=np.uint8)
+            _ = face_mesh.process(dummy_rgb)
+        finally:
+            face_mesh.close()
+    except ModuleNotFoundError as e:
+        return (
+            "skipped",
+            f"Missing dependency '{e.name}'. Install optional deps (see project README). "
+            f"Resource request email: {RESOURCE_EMAIL}",
+        )
+    except Exception as e:
+        return "failed", f"MediaPipe FaceMesh check failed: {type(e).__name__}: {e}"
 
-    if not IMPORT_FILES:
-        return "passed", "No import target configured; PyTorch check passed."
-
-    return (
-        "skipped",
-        (last_error or "Unable to import project code.") + f" Resource request email: blue16@email.swu.edu.cn",
-    )
+    return "passed", "Imported webcam demo safely; MediaPipe FaceMesh ran on a dummy frame."

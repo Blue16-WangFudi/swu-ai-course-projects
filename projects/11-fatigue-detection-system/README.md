@@ -23,7 +23,7 @@
 ```
 conda activate pytorch
 ```
-- Optional extra deps (if this project provides `requirements.txt`):
+- Optional extra deps (MediaPipe/OpenCV for the webcam demo):
 
 ```
 pip install -r requirements.txt
@@ -49,5 +49,5 @@ python tests/smoke_test.py
 
 ## Troubleshooting
 - `Weights not found`: request resources by email and place files under `weights/`.
-- `ModuleNotFoundError`: install optional dependencies via `pip install -r requirements.txt` (if provided).
-- CUDA issues: verify your PyTorch/CUDA installation matches your driver.
+- `No module named mediapipe` / `No module named cv2`: install optional dependencies via `pip install -r requirements.txt`.
+- CUDA issues: verify your PyTorch/CUDA installation matches your driver.       
