@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------
+# swu-ai-course-projects
+# Large artifacts (datasets / model weights / slides) MUST NOT be committed.
+# ---------------------------------------------------------------------------
+
+# Model weights / exported models
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.tflite
+*.engine
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+*.xz
+
+# Videos
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Slides
+*.ppt
+*.pptx
+
+# Common ML outputs / logs
+runs/
+outputs/
+wandb/
+logs/
+*.log
+
+# Python caches
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ---------------------------------------------------------------------------
+# Per-project resource folders (keep placeholder READMEs tracked)
+# ---------------------------------------------------------------------------
+projects/**/data/**
+!projects/**/data/README.md
+
+projects/**/weights/**
+!projects/**/weights/README.md
+
+projects/**/slides/**
+!projects/**/slides/README.md
+
+# Large simulator / engine binaries (keep source code only)
+projects/16-autonomous-obstacle-avoidance/code/CARLA_0.9.15/**

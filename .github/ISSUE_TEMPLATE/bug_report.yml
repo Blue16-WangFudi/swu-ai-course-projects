@@ -1,0 +1,76 @@
+name: Bug report
+description: Report a reproducible problem in this repository.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: dropdown
+    id: project
+    attributes:
+      label: Project
+      description: Which project is affected?
+      options:
+        - root / scripts
+        - projects/01-soccer-offside-yolov11
+        - projects/02-basketball-foul-detection
+        - projects/03-badminton-juggle-counter
+        - projects/04-subject3-dance-recognition
+        - projects/05-playground-crowd-analysis
+        - projects/06-fingerprint-restoration
+        - projects/07-transformer-text-prediction
+        - projects/08-kissing-scene-detection
+        - projects/09-dialectsense-wavlm
+        - projects/10-industrial-ppe-detection
+        - projects/11-fatigue-detection-system
+        - projects/12-campus-plant-recognition
+        - projects/13-xinjiang-dance-recognition
+        - projects/14-violence-action-recognition
+        - projects/15-wafer-defect-analysis
+        - projects/16-autonomous-obstacle-avoidance
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened? Include a short error message if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Paste the exact commands you ran and the minimal steps to reproduce.
+      placeholder: |
+        conda activate pytorch
+        python scripts/smoke_all.py
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS / GPU / CUDA / Python / PyTorch versions (as applicable).
+      placeholder: |
+        OS:
+        GPU:
+        CUDA:
+        Python:
+        PyTorch:
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Traceback
+      description: Paste the full traceback/log output (please avoid screenshots).
+      render: shell
+    validations:
+      required: false
+

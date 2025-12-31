@@ -1,0 +1,16 @@
+/datasets
+/.venv
+/artifacts
+/.cache
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+.cache
+web/
+artifacts.zip
+dialect_sense_datasets.zip
+latex.zip
+
+# Track LaTeX sources; ignore build outputs.
+latex

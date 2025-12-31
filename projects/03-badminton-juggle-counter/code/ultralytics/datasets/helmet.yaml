@@ -1,0 +1,9 @@
+# Hetmet
+path: D:\pythonProject30\ultralytics\datasets\helmet
+train: train/images
+val: valid/images
+test: test/images
+# Classes
+# 正确格式：names是字典，键为0,1,2...，值为类别名称
+names:
+  0: helmet  # 假设你只检测“头盔”这一类

@@ -1,0 +1,13 @@
+torch
+torchvision
+resampy
+soundfile
+Pillow
+numpy
+moviepy
+opencv-python
+joblib
+pandas
+matplotlib
+pytube
+scipy

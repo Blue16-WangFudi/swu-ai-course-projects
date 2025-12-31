@@ -1,0 +1,11 @@
+numpy
+scipy
+scikit-learn
+matplotlib
+joblib
+soundfile
+torch
+transformers
+modelscope
+umap-learn
+gradio

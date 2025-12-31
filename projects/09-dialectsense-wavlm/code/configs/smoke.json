@@ -1,0 +1,101 @@
+{
+  "run_name": "smoke",
+  "seed": 42,
+  "data": {
+    "metadata_csv": "datasets/metadata.csv",
+    "audio_dir": "datasets/oggs",
+    "id_col": "id",
+    "label_col": "dialect.province",
+    "uploader_col": "uploader_id",
+    "min_votes": null,
+    "top_k_labels": 6,
+    "max_per_label": 30,
+    "max_total": 150
+  },
+  "audio": {
+    "target_sr": 16000,
+    "min_sec": 1.0,
+    "trim_silence": {
+      "enabled": true,
+      "threshold_db": -40.0,
+      "min_silence_sec": 0.2
+    },
+    "normalize": {
+      "enabled": true,
+      "target_rms_dbfs": -20.0,
+      "max_gain_db": 20.0,
+      "peak_limit": 0.99
+    }
+  },
+  "embed": {
+    "backend": "wavlm_large",
+    "model_id": "microsoft/wavlm-large",
+    "model_cache_dir": ".cache/modelscope",
+    "device": "auto",
+    "layer_start": 6,
+    "layer_end": 12,
+    "chunk": {
+      "max_sec": 12.0,
+      "strategy": "chunk",
+      "chunk_sec": 3.0,
+      "hop_sec": 1.5,
+      "agg": "mean",
+      "max_chunks": 20
+    }
+  },
+  "split": {
+    "train_ratio": 0.7,
+    "val_ratio": 0.1,
+    "test_ratio": 0.2,
+    "max_tries": 500,
+    "min_groups_per_label": 2,
+    "max_label_drop_iterations": 200,
+    "min_per_label_train": 3,
+    "min_per_label_val": 1,
+    "min_per_label_test": 3
+  },
+  "coarse": {
+    "enabled": true,
+    "k": 3,
+    "centroid": {
+      "method": "mean",
+      "trim_fraction": 0.1
+    },
+    "kmeans": {
+      "n_init": 20
+    }
+  },
+  "model": {
+    "kind": "stacked",
+    "stacked_svm": {
+      "C": 1.0,
+      "max_iter": 5000,
+      "class_weight": "balanced"
+    },
+    "stacked_mlp": {
+      "hidden": [
+        256,
+        64
+      ],
+      "alpha": 0.0003,
+      "lr": 0.001,
+      "max_iter": 80,
+      "early_stopping": true,
+      "n_iter_no_change": 8,
+      "validation_fraction": 0.1
+    },
+    "stacked_meta": {
+      "C": 2.0,
+      "max_iter": 2000,
+      "solver": "lbfgs"
+    }
+  },
+  "report": {
+    "max_labels_bar": 30,
+    "embedding_2d": {
+      "method": "umap_if_available_else_tsne",
+      "max_points": 2000,
+      "perplexity": 30
+    }
+  }
+}

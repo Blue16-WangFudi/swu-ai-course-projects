@@ -1,0 +1,142 @@
+
+├─ yolo_infer.py           # YOLO 检测人体，导出人体框架序列
+├─ create_dataset.py       # 构建 LSTM 用的数据序列
+├─ lstm_model.py           # 定义 LSTM 模型
+├─ train_lstm.py           # 训练 LSTM 来判断是否打架
+├─ predict.py              # 最终检测是否打架（YOLO + LSTM）
+│
+├─ data/
+│    ├─ raw_videos/        # 原始视频
+│    ├─ sequences/         # YOLO 输出的人体序列
+│    ├─ labels.csv         # 打架/非打架标签
+
+
+
+pip install ultralytics
+
+
+
+
+
+
+fight_detection/
+│
+├─ data/
+│    ├─ raw_videos/
+│    │       ├─ fight/
+│    │       │     ├─ fight001.mp4
+│    │       │     ├─ fight002.mp4
+│    │       │     └─ ...
+│    │       ├─ nonfight/
+│    │       │     ├─ nonfight001.mp4
+│    │       │     ├─ nonfight002.mp4
+│    │       │     └─ ...
+│    │
+│    ├─ sequences/
+│    │       ├─ fight001.npy
+│    │       ├─ fight002.npy
+│    │       ├─ nonfight001.npy
+│    │       └─ ...
+│    │
+│    ├─ dataset.pt       # LSTM 用的训练数据
+
+
+
+
+数据预处理
+
+python yolo_infer.py
+python create_dataset.py
+
+
+→ 得到 dataset.pt
+
+LSTM 训练
+
+python train_lstm.py
+
+
+→ 得到 lstm_model.pth
+
+推理/测试新视频
+
+python predict.py
+
+
+→ 输出“正在打架!” 或 “没有打架”
+
+
+
+
+
+Epoch 1/20, Loss=119.5697, Test Acc=67.17%
+Epoch 2/20, Loss=107.9539, Test Acc=67.42%
+Epoch 3/20, Loss=105.1479, Test Acc=75.94%
+Epoch 4/20, Loss=97.7773, Test Acc=76.19%
+Epoch 5/20, Loss=95.0429, Test Acc=75.69%
+Epoch 6/20, Loss=96.4054, Test Acc=75.69%
+Epoch 7/20, Loss=93.4499, Test Acc=77.19%
+Epoch 8/20, Loss=94.4237, Test Acc=76.19%
+Epoch 9/20, Loss=92.1324, Test Acc=76.94%
+Epoch 10/20, Loss=88.3403, Test Acc=77.69%
+Epoch 11/20, Loss=88.3663, Test Acc=76.44%
+Epoch 12/20, Loss=88.8120, Test Acc=70.68%
+Epoch 13/20, Loss=89.5758, Test Acc=76.94%
+Epoch 14/20, Loss=86.1199, Test Acc=77.69%
+Epoch 15/20, Loss=88.6027, Test Acc=73.18%
+Epoch 16/20, Loss=87.2851, Test Acc=78.95%
+Epoch 17/20, Loss=85.6426, Test Acc=78.70%
+Epoch 18/20, Loss=89.0199, Test Acc=75.94%
+Epoch 19/20, Loss=85.5740, Test Acc=76.94%
+Epoch 20/20, Loss=89.2331, Test Acc=77.94%
+
+
+
+
+
+
+
+
+
+X shape: torch.Size([1993, 30, 4])
+y shape: torch.Size([1993])
+y unique: tensor([0, 1])
+Epoch 1/20, Loss=127.3811, Test Acc=58.65%
+Epoch 2/20, Loss=112.8867, Test Acc=69.92%
+Epoch 3/20, Loss=107.7980, Test Acc=71.18%
+Epoch 4/20, Loss=106.0206, Test Acc=73.93%
+Epoch 5/20, Loss=104.8540, Test Acc=73.43%
+Epoch 6/20, Loss=103.5878, Test Acc=75.19%
+Epoch 7/20, Loss=98.1486, Test Acc=74.69%
+Epoch 8/20, Loss=97.6367, Test Acc=77.19%
+Epoch 9/20, Loss=97.7475, Test Acc=77.94%
+Epoch 10/20, Loss=96.1130, Test Acc=76.19%
+Epoch 11/20, Loss=96.5348, Test Acc=76.19%
+Epoch 12/20, Loss=96.5951, Test Acc=76.19%
+Epoch 13/20, Loss=95.4088, Test Acc=76.19%
+Epoch 14/20, Loss=92.1553, Test Acc=75.94%
+Epoch 15/20, Loss=91.2628, Test Acc=76.44%
+Epoch 16/20, Loss=91.3665, Test Acc=75.44%
+Epoch 17/20, Loss=90.0376, Test Acc=76.44%
+Epoch 18/20, Loss=90.1645, Test Acc=76.69%
+Epoch 19/20, Loss=87.4896, Test Acc=76.44%
+Epoch 20/20, Loss=92.3320, Test Acc=78.45%
+✔ 模型训练完成，最佳模型已保存为 lstm_model_best.pth
+
+====== Confusion Matrix ======
+[[144  60]
+ [ 26 169]]
+
+====== Classification Report ======
+              precision    recall  f1-score   support
+
+Non-violence       0.85      0.71      0.77       204
+    Violence       0.74      0.87      0.80       195
+
+    accuracy                           0.78       399
+   macro avg       0.79      0.79      0.78       399
+weighted avg       0.79      0.78      0.78       399
+
+✔ 已保存: loss_curve.png, acc_curve.png, confusion_matrix.png
+
+Process finished with exit code 0

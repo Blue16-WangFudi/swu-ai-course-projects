@@ -1,0 +1,6 @@
+names:
+  0: badminton
+  1: racket
+path: D:\QQ文件\1
+train: images
+val: images

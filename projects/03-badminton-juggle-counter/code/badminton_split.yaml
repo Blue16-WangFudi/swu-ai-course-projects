@@ -1,0 +1,6 @@
+names:
+  0: badminton
+  1: racket
+path: badminton_split_dataset
+train: train/images
+val: val/images

@@ -1,0 +1,17 @@
+
+
+
+train: vehicaldetect # train images (relative to 'path') 128 images
+val: vehicaldetect # val images (relative to 'path') 128 images
+
+# number of classes
+nc: 6
+
+# Classes
+names: [ 'Bus', 'Microbus', 'Minivan', 'Sedan', 'SUV', 'Truck']
+#Bus:0
+#Microbus:1
+#Minivan:2
+#Sedan:3
+#SUV:4
+#Truck:5
