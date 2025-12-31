@@ -52,6 +52,18 @@ Activate the existing environment:
 conda activate pytorch
 ```
 
+If you prefer not to activate (e.g., CI or one-off runs):
+
+```
+conda run -n pytorch python scripts/smoke_all.py
+```
+
+If you see `ModuleNotFoundError: No module named 'cv2'`, install OpenCV:
+
+```
+pip install opencv-python
+```
+
 Run all smoke tests:
 
 ```
@@ -103,4 +115,3 @@ This repository uses a custom license:
 - Provided “as is”, without warranty
 
 See `LICENSE` for details.
-

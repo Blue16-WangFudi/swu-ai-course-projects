@@ -52,6 +52,18 @@ projects/<NN>-<slug>/
 conda activate pytorch
 ```
 
+如果不想激活环境（例如 CI 或一次性运行），也可以：
+
+```
+conda run -n pytorch python scripts/smoke_all.py
+```
+
+如果出现 `ModuleNotFoundError: No module named 'cv2'`，请安装 OpenCV：
+
+```
+pip install opencv-python
+```
+
 运行全部烟雾测试：
 
 ```
@@ -103,4 +115,3 @@ python projects/<NN>-<slug>/tests/smoke_test.py
 - “按现状”提供，不提供任何担保
 
 详见 `LICENSE`。
-
